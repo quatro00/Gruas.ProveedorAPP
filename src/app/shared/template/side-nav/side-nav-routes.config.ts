@@ -13,76 +13,36 @@ export const AdminRoutes: SideNavInterface[] = [
     submenu:[]
   },
   {
-    path: 'proveedor/servicios',
-    title: 'Servicios',
+    path: 'proveedor/servicios-disponibles',
+    title: 'Servicios disponibles',
     iconType: 'nzIcon',
     iconTheme: 'outline',
     icon: '',
     submenu:[]
   },
   {
-    path: 'proveedor/registrar-pago',
-    title: 'Registrar pago',
+    path: 'proveedor/perfil',
+    title: 'Perfil',
     iconType: 'nzIcon',
     iconTheme: 'outline',
     icon: '',
     submenu:[]
   },
   {
-    path: 'proveedor/proveedores',
-    title: 'Proveedores',
+    path: 'proveedor/reporte-pagos',
+    title: 'Reporte de pagos',
     iconType: 'nzIcon',
     iconTheme: 'outline',
     icon: '',
     submenu:[]
   },
   {
-    path: 'proveedor/gruas',
-    title: 'Gruas',
+    path: 'proveedor/reporte-servicios',
+    title: 'Reporte de servicios',
     iconType: 'nzIcon',
     iconTheme: 'outline',
     icon: '',
     submenu:[]
-  },
-  {
-    path: 'proveedor/usuarios',
-    title: 'Usuarios',
-    iconType: 'nzIcon',
-    iconTheme: 'outline',
-    icon: '',
-    submenu:[]
-  },
-  {
-    path: 'proveedor/clientes',
-    title: 'Clientes',
-    iconType: 'nzIcon',
-    iconTheme: 'outline',
-    icon: '',
-    submenu:[]
-  },
-  {
-    path: 'proveedor/reportes',
-    title: 'Reportes',
-    iconType: 'nzIcon',
-    iconTheme: 'outline',
-    icon: '',
-    submenu:[
-      {
-        path: 'proveedor/reporte-pagos',
-        title: 'Pagos',
-        iconType: 'nzIcon',
-        iconTheme: 'outline',
-        icon: '',
-        submenu:[]
-      },
-      {
-      path: 'proveedor/reporte-servicios',
-      title: 'Servicios',
-      iconType: 'nzIcon',
-      iconTheme: 'outline',
-      icon: '',
-      submenu:[]
-    },]
   }
 ]
 

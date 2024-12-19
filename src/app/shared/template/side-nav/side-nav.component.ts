@@ -34,7 +34,7 @@ export class SideNavComponent{
         });
         this.user = this.authService.getUser();
         console.log('Usuario!',this.user);
-        if(this.user.roles.includes('Administrador')){ this.menuItems = [...AdminRoutes]; }
+        if(this.user.roles.includes('Colaborador')){ this.menuItems = [...AdminRoutes]; }
         if(this.user.roles.includes('Ventanilla')){ this.menuItems = [...AdminRoutes]; }
         if(this.user.roles.includes('Resonsable de farmacia')){ this.menuItems = [...AdminRoutes]; }
 
