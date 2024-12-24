@@ -21,6 +21,8 @@
     </div>
 
     <form class="max-w-full" [formGroup]="validateForm">
+     
+
       <nz-form-item>
         <nz-form-label class="flex items-center font-medium dark:text-white/60" nzXs="4"
           nzFor="text2">Costo</nz-form-label>
@@ -169,7 +171,21 @@
            </div>
            <div class="pt-4 px-[30px] pb-[25px] mt-[17px] border-t border-regular dark:border-white/10">
 
-            <form class="max-w-full" [formGroup]="validateForm">
+            <form class="max-w-full" [formGroup]="forms[i]">
+
+              <nz-form-item class="mb-[25px]">
+                <nz-form-label class="flex items-center font-medium dark:text-white/60 mb-[10px]" nzXs="4"
+                  nzFor="textarea1">Grua
+                </nz-form-label>
+                <nz-form-control nzXs="20">
+                  <nz-select class="basic-select" name="basicSelect" formControlName="grua">
+                    <nz-option *ngFor="let option of gruas" [nzLabel]="option.marca + ' ' + option.modelo +'(' + option.anio.toString() + ')'" [nzValue]="option.id">
+                    </nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+
+
               <nz-form-item>
                 <nz-form-control nzXs="11" nzErrorTip="Campo requerido.">
                   <input formControlName="costoCotizado" placeholder="Costo"
@@ -180,22 +196,21 @@
                 <nz-form-control nzXs="2"></nz-form-control>
 
                 <nz-form-control nzXs="11" nzErrorTip="Campo requerido.">
-                  <input formControlName="tiempoCotizado" placeholder="Tiempo"
+                  <input formControlName="tiempoCotizado" placeholder="Tiempo en minutos"
                     class="w-full rounded-4 border-normal border-1 text-[15px] dark:bg-white/10 dark:border-white/10 px-[20px] py-[12px] h-[46px] outline-none placeholder:text-[#A0A0A0] text-theme-gray dark:text-white/60"
                     nz-input name="tiempoCotizado" type="number" id="tiempoCotizado">
                 </nz-form-control>
 
               </nz-form-item>
             </form>
-
             <div class="flex items-center justify-end max-md:justify-center">
 
-              <button [nzLoading]="loadingStates[i]" *ngIf="item.estatus == 'Por cotizar'" class="flex items-center px-[25px] text-sm text-white rounded-md font-semibold bg-info border-info h-11 gap-[6px]" nz-button (click)="muestraNuevaCotizacion(i)">
+              <button [nzLoading]="loadingStates[i]" *ngIf="item.estatus == 'Por cotizar'" class="flex items-center px-[25px] text-sm text-white rounded-md font-semibold bg-info border-info h-11 gap-[6px]" nz-button (click)="muestraNuevaCotizacion(i,item.id)">
                 <i nz-icon nzType="plus"></i>
                 <span class="m-0">Cotizar</span>
               </button>
 
-              <button [nzLoading]="loadingStates[i]" *ngIf="item.estatus == 'Cotizado'" class="flex items-center px-[25px] text-sm text-white rounded-md font-semibold bg-secondary border-secondary h-11 gap-[6px]" nz-button (click)="muestraEditarCotizacion(i)">
+              <button [nzLoading]="loadingStates[i]" *ngIf="item.estatus == 'Cotizado'" class="flex items-center px-[25px] text-sm text-white rounded-md font-semibold bg-secondary border-secondary h-11 gap-[6px]" nz-button (click)="muestraEditarCotizacion(i,item.cotizacionId)">
                 <i nz-icon nzType="edit"></i>
                 <span class="m-0">Modificar cotizacion</span>
               </button>
