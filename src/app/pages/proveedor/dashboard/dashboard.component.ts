@@ -1,6 +1,8 @@
 import { Component,Input, OnInit,ElementRef } from '@angular/core';
 import tableData  from '../../../../assets/data/pages/table-data.json';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { ServicioService } from 'src/app/services/servicios.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,10 +12,11 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 export class DashboardComponent {
   showContent = false;
   upcomingEvent: any;
+  serviciosProximos:any[]=[];
   tabData: { key: string; label: string }[];
   sellingTab: string = 'today';
 
-  constructor(private modalService: NzModalService, private elementRef: ElementRef) {
+  constructor(private modalService: NzModalService, private elementRef: ElementRef, private serviciosService:ServicioService) {
     this.upcomingEvent = {
       "today": [
         {
@@ -130,23 +133,75 @@ export class DashboardComponent {
   //Tabs
   handleClick(tab: string): void {
     this.sellingTab = tab;
-    const storageKey = `sellingTab_${this.componentId}`; // Use a unique key for each component
-    localStorage.setItem(storageKey, tab);
   }
 
+  
   ngOnInit(): void {
     this.loadData();
     
-    const storageKey = `sellingTab_${this.componentId}`; // Use the same unique key as in handleClick
-    const storedTab = localStorage.getItem(storageKey);
-    if (storedTab) {
-      this.sellingTab = storedTab;
+  }
+
+  makeCall(phoneNumber: string): void {
+    const url = `tel:${phoneNumber}`;
+    window.open(url, '_system'); // '_system' para garantizar que se abra la aplicación nativa
+  }
+
+  async navigateToDestination(origenLat: number, origenLon: number, destinoLat:number, destinoLon:number): Promise<void> {
+    try {
+      const url = `https://www.google.com/maps/dir/?api=1&destination=${destinoLat},${destinoLon}&origin=${origenLat},${origenLon}&travelmode=driving`;
+      window.open(url, '_system');
+    } catch (error) {
+      console.error('Error obtaining location:', error);
     }
   }
 
-  loadData() {
-    this.showContent = true;
+  async navigateToOrigin(lat: number, lon: number): Promise<void> {
+    try {
+      const currentLocation = await this.getCurrentLocation();
+      const url = `https://www.google.com/maps/dir/?api=1&origin=${currentLocation.lat},${currentLocation.lon}&destination=${lat},${lon}&travelmode=driving`;
+      window.open(url, '_system');
+    } catch (error) {
+      console.error('Error obtaining location:', error);
     }
+  }
+
+  getCurrentLocation(): Promise<{ lat: number; lon: number }> {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            resolve({
+              lat: position.coords.latitude,
+              lon: position.coords.longitude,
+            });
+          },
+          (error) => reject(error)
+        );
+      } else {
+        reject('Geolocation not supported');
+      }
+    });
+  }
+
+  loadData() {
+    
+      forkJoin([
+        this.serviciosService.GetServiciosProximos()
+      ]).subscribe({
+        next: ([serviciosProximosResponse]) => {
+          this.serviciosProximos = serviciosProximosResponse;
+          this.showContent = true;
+        },
+        complete: () => {
+          
+        },
+        error: () => {
+          
+        }
+      });
+    }
+    
+
 
   // Method to open the edit modal
   openEditModal(product: any): void {

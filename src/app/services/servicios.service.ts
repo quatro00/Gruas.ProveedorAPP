@@ -22,6 +22,10 @@ export class ServicioService {
     return this.http.get<any>(`${environment.apiBaseUrl}/api/${this.service}/GetServiciosDisponibles`);
   }
 
+  GetServiciosProximos():Observable<any>{
+    return this.http.get<any>(`${environment.apiBaseUrl}/api/${this.service}/GetServiciosProximos`);
+  }
+
   EnviarCotizacionProveedor(request:any):Observable<any>{
     return this.http.post<any>(`${environment.apiBaseUrl}/api/${this.service}/EnviarCotizacionProveedor`,request);
   }
